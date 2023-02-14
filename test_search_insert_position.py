@@ -3,34 +3,22 @@ from typing import List
 import pytest
 
 
-# TODO: Переделать т.к. плохие результаты
-#  Success:
-# 	Runtime:60 ms, faster than 26.56% of Python3 online submissions.
-# 	Memory Usage:14.8 MB, less than 32.20% of Python3 online submissions.
-
 class Solution:
     def searchInsert(self, nums: List[int], target: int) -> int:
         left_bound = 0
         right_bound = len(nums) - 1
 
-        if target < nums[left_bound]:
-            return 0
+        while left_bound <= right_bound:
+            center = (left_bound + right_bound) // 2
 
-        if target > nums[right_bound]:
-            return right_bound + 1
-
-        while True:
-            if (right_bound - left_bound) <= 1:
-                if nums[left_bound] == target:
-                    return left_bound
-                else:
-                    return right_bound
-
-            center = (right_bound - left_bound) // 2 + left_bound
-            if nums[center] >= target:
-                right_bound = center
+            if nums[center] == target:
+                return center
+            elif nums[center] < target:
+                left_bound = center + 1
             else:
-                left_bound = center
+                right_bound = center - 1
+
+        return left_bound
 
 
 solution = Solution()
